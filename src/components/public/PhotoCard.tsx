@@ -47,11 +47,24 @@ export const PhotoCard: React.FC<PhotoCardProps> = ({
           : 'hover:shadow-xl hover:shadow-stone-300/40'
       }`}
     >
+      {/* Newly Uploaded Photo Badge */}
+      {(photo.tags?.includes('uploaded') || photo.id.startsWith('ph-user-')) && (
+        <span className="absolute top-2.5 left-2.5 z-10 px-2 py-0.5 rounded-full bg-indigo-600 text-white text-[9px] font-bold uppercase tracking-wider shadow-sm flex items-center gap-1">
+          <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+          <span>New</span>
+        </span>
+      )}
+
       {/* Photo Image */}
       <img
-        src={photo.thumbnailUrl}
+        src={photo.thumbnailUrl || photo.url}
         alt={photo.title}
         loading="lazy"
+        onError={(e) => {
+          if (e.currentTarget.src !== photo.url) {
+            e.currentTarget.src = photo.url;
+          }
+        }}
         className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
       />
 

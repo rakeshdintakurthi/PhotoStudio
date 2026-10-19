@@ -132,8 +132,13 @@ export const Lightbox: React.FC = () => {
         {/* The Image */}
         <div className="relative max-w-full max-h-full flex items-center justify-center">
           <img
-            src={currentPhoto.url}
+            src={currentPhoto.url || currentPhoto.thumbnailUrl}
             alt={currentPhoto.title}
+            onError={(e) => {
+              if (currentPhoto.thumbnailUrl && e.currentTarget.src !== currentPhoto.thumbnailUrl) {
+                e.currentTarget.src = currentPhoto.thumbnailUrl;
+              }
+            }}
             className="max-w-full max-h-[75vh] object-contain rounded-sm shadow-2xl transition-all duration-300"
           />
         </div>
